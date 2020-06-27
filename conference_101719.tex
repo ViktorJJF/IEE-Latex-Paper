@@ -7,6 +7,8 @@
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 \usepackage{textcomp}
+\usepackage{tikz}
+\usepackage{pgfplots}
 \usepackage{xcolor}
 
 % biblatex
@@ -78,24 +80,28 @@ Previous work has only focused on
 
 This paper is divided into five sections. Section II gives a brief overview of related works. The third section defines the NLU services evaluated during the research.
 
+\section{Background}
+Mariateguino Bot was the chatbot of the José Carlos Mariátegui University during 2018, its main function was to attend to the doubts of the students regarding the necessary requirements to carry out administrative procedures. Moreover, the chatbot was able to answer frequently asked questions, support students regarding the admissions process, and provide class schedules.
+
+Mariateguino Bot was made with Dialogflow \cite{dialogflow2020}, a Google service that runs on Google Cloud Platform. Therefore, other platforms, described in section \ref{sec:nluServices}, were evaluated.
+
 \section{Related works}
-In recent years, multiple investigations have been carried out regarding chatbots and the impact they have on traditional processes.
+In recent years, multiple investigations have been carried out regarding chatbots and the impact they have on traditional processes, generally in customer service. Some of these researches are listed below.
 
 Canonico and De Russis wrote a paper titled "A comparison and Critique of Natural Language Understanding Tools" \cite{Canonico2018}, which compares the main cloud-based platforms, from a descriptive and performance based point of view. Their results showed that Watsson Assistant is the platform who performs best.
 
 In the other hand, Braun, Hernandez, Matthes and Langen wrote a paper titles "Evaluating Natural Language Understanding Services for Conversational Question Answering Systems", which presents a method to evaluate the classification performance of NLU services. Their results indicated that LUIS showed the best scores and RASA could achieve similar results.
 
-
-
-\section{Natural language understanding services}
-\subsection{Watsson Assistant}
-Watsson Assistant is a cognitive cloud service offering by IBM that makes it easier for developers to build conversational interfaces and embed them into any application \cite{sabharwal2019developing}.
+\section{Natural language understanding services} \label{sec:nluServices}
+There are many natural language understanding modules that are available as cloud services and major IT players like Google, Microsoft, IBM, Facebook and Amazon have created tools to develop chatbots \cite{hall2017hands}. Additionally, Rasa was included because Dialogflow training data can be converted to its format and is an open source alternative compared to  the other platforms.
 \subsection{Dialogflow}
 Dialogflow is a Google service that runs on Google Cloud Platform. Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into any system \cite{dialogflow2020}.
-\subsection{Wit.ai}
-Facebook has established the Wit.ai bot engine which allows training bots with sample conversations and have your bots repeatedly learn from interrelating with customers \cite{seligman2018artificial}.
 \subsection{LUIS}
 The Language Understanding Intelligent Service (LUIS) is a Microsoft's NLU cloud service and is part of the cognitive suite \cite{pathak2018iot}.
+\subsection{Watsson Assistant}
+Watsson Assistant is a cognitive cloud service offering by IBM that makes it easier for developers to build conversational interfaces and embed them into any application \cite{sabharwal2019developing}.
+\subsection{Wit.ai}
+Facebook has established the Wit.ai bot engine which allows training bots with sample conversations and have your bots repeatedly learn from interrelating with customers \cite{seligman2018artificial}.
 \subsection{Amazon LEX}
 Amazon Lex is a development platform,belonging to Amazon, for building intelligent assistants or chatbots, which provides many AI capabilities like Automatic Speech Recognition (ASR) and Natural language Understanding (NLU) \cite{tripuraneni2019hands}.
 \subsection{Rasa}
@@ -103,50 +109,166 @@ Rasa NLU is an open-source NLP library for intent classification and entity extr
 
 \section{Literature Review}
 \subsection{Measure}
-Precision
-\begin{equation}
-    Precision=\frac{TP}{TP+FP}\label{eq}
-\end{equation}
-Recall
-\begin{equation}
-    Precision=\frac{TP}{TP+FN}\label{eq}
-\end{equation}
+\begin{itemize}
+    \item Precision
+          \begin{equation}
+              Precision=\frac{TP}{TP+FP}\label{eq}
+          \end{equation}
+    \item Recall
+          \begin{equation}
+              Precision=\frac{TP}{TP+FN}\label{eq}
+          \end{equation}
+\end{itemize}
+
 \begin{equation}
     F_{1} =\frac{2 \times Precision\times Recall}{Precision+Recall}\label{eq}
 \end{equation}
 
 \section{Materials and Methods}
 \subsection{Materials}
-The NLU services used during the research were Dialogflow, Wit.ai, LUIS, Amazon LEX and Rasa.
+The NLU services used during the research were Dialogflow, Wit.ai, LUIS, Amazon LEX and Rasa. Moreover, 30 intents were evaluated. To calculate the performance of each platform, the F1 score metric was used, which includes precision and recall.
 
-30 intents were used
+\subsection{Data set}
+One hundred messages from the chatbot's conversation history were selected as input data.
 
 \subsection{Procedure}
 In order to identify F1 score, it was necessary to calculate the precision and recall.
 
-The software as a service used to ---- was qbox.ai
-
 The F1 score was chosen beacuse it is one of the most practical ways to numerically calculate the performance of an NLU service
 
+As a first step, a conversion of the Dialogflow training data to the rest of the research platforms was carried out, using the QBox.ai service \cite{qbox2020}. Then, one hundred messages were randomly selected from Mariateguino Bot conversation history.
+
+Afterwards, to start testing and obtain data, a Node.js application was created in order to combine the application programming interface (API) from each NLU service, in such a way that each input message was only entered once and the desired data was obtained in the format shown in figure \ref{fig:nludata}.
+
+\begin{figure}[htbp]
+    \centerline{\fbox{\includegraphics[scale=0.58]{nlu}}}
+    \caption{Example of a figure caption.}
+    \label{fig:nludata}
+\end{figure}
+
+
 \section{Result}
+hola que hace
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}
+                [
+                    ybar,
+                    bar width=12pt,
+                    ylabel=Precision,
+                    xlabel=NLU services,
+                    symbolic x coords={Dialogflow,LUIS,Watson,Wit.ai,LEX,Rasa},
+                    enlarge x limits=0.075,
+                    xtick=data,
+                    xmajorgrids = false,
+                    ymajorgrids = true,
+                    ymin=0,
+                    ymax=1,
+                    % axis y line = left,
+                    every outer y axis line/.append style = {-},
+                    every outer x axis line/.append style = {-},
+                    ylabel style = {font=\bfseries},
+                    xlabel style = {font=\bfseries},
+                    nodes near coords,
+                    nodes near coords align={vertical},
+                ]
+                \addplot coordinates {(Dialogflow,0.828333333) (LUIS,0.461717171717172) (Watson,0.813918128654971) (Wit.ai,0.607663117663118) (LEX,0.551633986928105) (Rasa,0.618515325670498) };
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \caption{Precision of NLU services}
+    \label{fig}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}
+                [
+                    ybar,
+                    bar width=12pt,
+                    ylabel=Recall,
+                    xlabel=NLU services,
+                    symbolic x coords={Dialogflow,LUIS,Watson,Wit.ai,LEX,Rasa},
+                    enlarge x limits=0.075,
+                    xtick=data,
+                    xmajorgrids = false,
+                    ymajorgrids = true,
+                    ymin=0,
+                    ymax=1,
+                    % axis y line = left,
+                    every outer y axis line/.append style = {-},
+                    every outer x axis line/.append style = {-},
+                    ylabel style = {font=\bfseries},
+                    xlabel style = {font=\bfseries},
+                    nodes near coords,
+                    nodes near coords align={vertical},
+                ]
+                \addplot coordinates {(Dialogflow,0.848744588744589) (LUIS,0.343726551226551) (Watson,0.89017316017316) (Wit.ai,0.602640692640693) (LEX,0.514170274170274) (Rasa,0.651991341991342) };
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \caption{Precision of NLU services}
+    \label{fig}
+\end{figure}
+
+Abajo se explica el f1 score
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}
+                [
+                    ybar,
+                    bar width=12pt,
+                    ylabel=F1 score,
+                    xlabel=NLU services,
+                    symbolic x coords={Dialogflow,LUIS,Watson,Wit.ai,LEX,Rasa},
+                    enlarge x limits=0.075,
+                    xtick=data,
+                    xmajorgrids = false,
+                    ymajorgrids = true,
+                    ymin=0,
+                    ymax=1,
+                    % axis y line = left,
+                    every outer y axis line/.append style = {-},
+                    every outer x axis line/.append style = {-},
+                    ylabel style = {font=\bfseries},
+                    xlabel style = {font=\bfseries},
+                    nodes near coords,
+                    nodes near coords align={vertical},
+                ]
+                \addplot coordinates {(Dialogflow,0.820630111) (LUIS,0.357854738
+                        ) (Watson,0.820979481) (Wit.ai,0.576004394) (LEX,0.503356458) (Rasa,0.615315904) };
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \caption{Precision of NLU services}
+    \label{fig}
+\end{figure}
+
+Esta es la ultima parte de la tabla
+
 \begin{table}[htbp]
     \centering
-    \caption{F1 scores}
-    \begin{tabular}{|c|c|}
+    \caption{F1 scores overview}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        NLU Service & F1 score    \\
+        \textbf{NLU Service} & \textbf{Precision} & \textbf{Recall} & \textbf{F1 score} \\
         \hline
-        Dialogflow  & 0.820630111 \\
+        Dialogflow           & 0.828333333        & 0.848744589     & 0.820630111       \\
         \hline
-        LUIS        & 0.357854738 \\
+        LUIS                 & 0.461717172        & 0.343726551     & 0.357854738       \\
         \hline
-        Watson      & 0.820979481 \\
+        Watson               & 0.813918129        & 0.89017316      & 0.820979481       \\
         \hline
-        Wit.ai      & 0.576004394 \\
+        Wit.ai               & 0.607663118        & 0.602640693     & 0.576004394       \\
         \hline
-        LEX         & 0.503356458 \\
+        LEX                  & 0.551633987        & 0.514170274     & 0.503356458       \\
         \hline
-        RASA        & 0.615315904 \\
+        RASA                 & 0.618515326        & 0.651991342     & 0.615315904       \\
         \hline
     \end{tabular}%
     \label{tab:addlabel}%

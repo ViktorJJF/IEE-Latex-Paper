@@ -65,6 +65,7 @@
 \begin{abstract}
     The present paper aims to compare the main natural language understanding services in terms of performance. through F1 score and confusion matrix. To assess the performance, precision, recall and F1 score was used.
     This document is a model and instructions for \LaTeX.
+    But ais
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -72,16 +73,20 @@
 \end{IEEEkeywords}
 
 \section{Introduction}
-Natural Language Understanding (NLU) is the ability of a machine to understand human languages. Said otherwise, it is the process of converting natural language text into a form that computers can understand \cite{pathak2017artificial}.
+Nowadays, the industry and researchers are increasingly recognize the importance of chatbot systems, because they are integrated into everyday life, playing roles as assistants to end users \cite{Bird2018}. A chatbot is a computer program which uses machine learning technique voice recognition, and natural language processing (NLP) to conduct a intelligent conversation with a person (e.g. Amazon's Alexa and Google's Assistant) \cite{mittal2019getting}. Moreover, a chatbot works thanks to the natural language understanding (NLU), which is the ability of a machine to understand human languages, said otherwise, it is the process of converting natural language text into a form that computers can understand \cite{pathak2017artificial}.
+
+
 
 Throughout this paper, the term NLU
 
 Previous work has only focused on
 
+In this research, the performance of six NLU services was evaluated
+
 This paper is divided into five sections. Section II gives a brief overview of related works. The third section defines the NLU services evaluated during the research.
 
 \section{Background}
-Mariateguino Bot was the chatbot of the José Carlos Mariátegui University during 2018, its main function was to attend to the doubts of the students regarding the necessary requirements to carry out administrative procedures. Moreover, the chatbot was able to answer frequently asked questions, support students regarding the admissions process, and provide class schedules.
+Training data and input messages were extracted from Mariateguino Bot,which was the chatbot of the José Carlos Mariátegui University during 2018, its main function was to attend to the doubts of the students regarding the necessary requirements to carry out administrative procedures. Moreover, the chatbot was able to answer frequently asked questions, support students regarding the admissions process, and provide class schedules.
 
 Mariateguino Bot was made with Dialogflow \cite{dialogflow2020}, a Google service that runs on Google Cloud Platform. Therefore, other platforms, described in section \ref{sec:nluServices}, were evaluated.
 
@@ -107,8 +112,10 @@ Amazon Lex is a development platform,belonging to Amazon, for building intellige
 \subsection{Rasa}
 Rasa NLU is an open-source NLP library for intent classification and entity extraction in chatbots \cite{raj2018building}.
 
-\section{Literature Review}
-\subsection{Measure}
+\section{Materials and Methods}
+\subsection{Materials}
+The NLU services used during the research were Dialogflow, Wit.ai, LUIS, Amazon LEX and Rasa. Moreover, 100 messages from the Mariateguino Bot conversation history were selected as input data and they were grouped based on the expected intents, thus obtaining 30 intents. To calculate the performance of each platform, the F1 score metric was used, which includes precision and recall.
+
 \begin{itemize}
     \item Precision
           \begin{equation}
@@ -124,27 +131,22 @@ Rasa NLU is an open-source NLP library for intent classification and entity extr
     F_{1} =\frac{2 \times Precision\times Recall}{Precision+Recall}\label{eq}
 \end{equation}
 
-\section{Materials and Methods}
-\subsection{Materials}
-The NLU services used during the research were Dialogflow, Wit.ai, LUIS, Amazon LEX and Rasa. Moreover, 30 intents were evaluated. To calculate the performance of each platform, the F1 score metric was used, which includes precision and recall.
-
-\subsection{Data set}
-One hundred messages from the chatbot's conversation history were selected as input data.
-
 \subsection{Procedure}
 In order to identify F1 score, it was necessary to calculate the precision and recall.
 
 The F1 score was chosen beacuse it is one of the most practical ways to numerically calculate the performance of an NLU service
 
-As a first step, a conversion of the Dialogflow training data to the rest of the research platforms was carried out, using the QBox.ai service \cite{qbox2020}. Then, one hundred messages were randomly selected from Mariateguino Bot conversation history.
+As a first step, a conversion of the Dialogflow training data to the rest of the research platforms was carried out, using the QBox.ai service \cite{qbox2020}. Then, one hundred messages were randomly selected from Mariateguino Bot conversation history and they were grouped based on the expected intents, thus obtaining 30 intents.
 
-Afterwards, to start testing and obtain data, a Node.js application was created in order to combine the application programming interface (API) from each NLU service, in such a way that each input message was only entered once and the desired data was obtained in the format shown in figure \ref{fig:nludata}.
+Afterwards, to start testing and obtain data, a Node.js application was created in order to combine the application programming interface (API) from each NLU service, in such a way that each input message was only entered once and the desired data was obtained in the format shown in Fig. \ref{fig:nludata}.
 
 \begin{figure}[htbp]
     \centerline{\fbox{\includegraphics[scale=0.58]{nlu}}}
     \caption{Example of a figure caption.}
     \label{fig:nludata}
 \end{figure}
+
+In order to evaluate the results, the expected and predicted intentions were identified for each input message. Since 100 random messages from the conversation history were used, . In this way, true positives (TP), false positives (FP) and false negatives (FN) were calculated.
 
 
 \section{Result}
@@ -178,7 +180,7 @@ hola que hace
             \end{axis}
         \end{tikzpicture}
     \end{center}
-    \caption{Precision of NLU services}
+    \caption{Recall of NLU services}
     \label{fig}
 \end{figure}
 
@@ -210,7 +212,7 @@ hola que hace
             \end{axis}
         \end{tikzpicture}
     \end{center}
-    \caption{Precision of NLU services}
+    \caption{F1 score of NLU services}
     \label{fig}
 \end{figure}
 
